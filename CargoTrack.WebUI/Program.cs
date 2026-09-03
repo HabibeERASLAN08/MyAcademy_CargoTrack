@@ -28,6 +28,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<AppUser,AppRole>().AddEntityFrameworkStores<AppDbContext>();
 // Add services to the container.
 //IOC Container
+builder.Services.ConfigureApplicationCookie(config =>
+{
+    config.LoginPath = "/Login/Index";
+    config.LogoutPath = "/Login/Logout";
+    config.AccessDeniedPath = "/ErrorPages/AccessDenied";
+    config.Cookie.Name = "CargoTrackCookie";
+});
+
 
 builder.Services.AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters()
@@ -60,7 +68,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -9,6 +9,7 @@ namespace CargoTrack.DTO.DTOs.UserDtos
 {
     public class RegisterUserDto
     {
+        
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? UserName { get; set; }
