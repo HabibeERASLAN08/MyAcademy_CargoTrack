@@ -88,7 +88,7 @@ using (var scope = app.Services.CreateScope())
     // Veritabanýnýn var olduðundan emin olun (Migration kullanýyorsanýz context.Database.Migrate() yapýn)
     context.Database.EnsureCreated();
 
-    // Eðer veritabanýnda hiç þehir yoksa ekle
+    // Eðer veritabanýnda hiç þehir yoksa ekle //buralar biz projeyi bitirdiðimizde kaldýrýlacak
     if (!context.Cities.Any())
     {
         var cities = new List<City>
@@ -134,7 +134,27 @@ using (var scope = app.Services.CreateScope())
         context.Roles.AddRange(roles);
         context.SaveChanges();
     }
-    
+    if (!context.Cargos.Any())
+    {
+        var cargo = new Cargo
+        {
+            Id = Guid.NewGuid(),
+            SenderId = Guid.Parse("ba17a101-be9f-4d26-19ee-08df085ce0b8"),
+            ReceiverId = Guid.Parse("2866ab9b-9fff-4d4a-19ef-08df085ce0b8"),
+            OriginBranchId = Guid.Parse("772fb50a-22de-4a3c-b093-201ad2c5512b"),
+            DestinationBranchId = Guid.Parse("2464587a-51f5-48a0-9416-abb369fa197e"),
+            TrackCode = "CT202609081234",
+            ShipmentDate = DateTime.Now,
+            ArrivalDate = DateTime.Now.AddDays(2),
+            Weight = 2.5,
+            CargoType = CargoTrack.Entity.Entities.Enums.CargoType.Standart,
+            CargoStatus = CargoTrack.Entity.Entities.Enums.CargoStatus.DispatchedFromTransferCenter
+        };
+
+        context.Add(cargo);
+        context.SaveChanges();
+    }
+
 }
 
 //app.MapGet("/", () => "Uygulama çalýþýyor ve Seed Data kontrol edildi!");
